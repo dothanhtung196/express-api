@@ -52,7 +52,7 @@ class TokenHelper {
             jwt.sign(payload, this.refreshTokenSecret, options, (error, token) => {
                 if (error) reject(error);
 
-                redisConnection.setValueExpired(userId, token, refreshTokenExpiredRedis)
+                redisConnection.setValueExpired(`user-${userId}`, token, refreshTokenExpiredRedis)
                     .then(result => {
                         resolve(token);
                     }).catch(err => {
@@ -67,7 +67,7 @@ class TokenHelper {
             jwt.verify(refreshToken, this.refreshTokenSecret, (error, payload) => {
                 if (error) reject(error);
 
-                redisConnection.getValue(payload.userId)
+                redisConnection.getValue(`user-${payload.userId}`)
                     .then(result => {
                         if(result == refreshToken) resolve(payload);
                         else reject(new Error("Refresh token does not exists in database."));

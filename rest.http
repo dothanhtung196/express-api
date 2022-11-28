@@ -21,10 +21,8 @@ Content-Type: application/json
 
 ###
 POST http://localhost:3000/authentication/logout HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTYyODY2NywiZXhwIjoxNjY5NjI4Njk3fQ.DMDgFjqvAkL0e7k4bxtHs293fsSfhga-aqkPO4mn2Dw
-
 Content-Type: application/json
 
 {
-
+    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTY0NzEzNCwiZXhwIjoxNjcyMjM5MTM0fQ.DeyqmhimNy5zbaNoeJQyiu0QNz7Ac5C0G46qHrOvA8U"
 }

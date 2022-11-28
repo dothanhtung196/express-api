@@ -1,6 +1,6 @@
 const joi = require('joi');
 
-const authenticationValidate = joi.object({
+const loginValidate = joi.object({
     username: joi.string()
         .alphanum()
         .min(3)
@@ -17,6 +17,6 @@ const refreshTokenValidate = joi.object({
 });
 
 module.exports = {
-    authenticationValidate,
+    loginValidate,
     refreshTokenValidate
 };

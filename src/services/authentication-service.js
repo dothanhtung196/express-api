@@ -1,6 +1,7 @@
 const userRepository = require("../repositories/user-repository");
 const stringCipher = require('../helpers/string-cipher');
 const jwtHelper = require("../helpers/jwt-helper");
+const redisConnection = require("../helpers/redis-connection");
 
 class AuthenticationService {
     async register(request) {
@@ -37,8 +38,10 @@ class AuthenticationService {
         }
     }
 
-    async logout(){
-
+    async logout(refreshToken) {
+        let { userId } = await jwtHelper.verifyRefreshToken(refreshToken);
+        let result = await redisConnection.removeValue(`user-${userId}`);
+        return result;
     }
 }
 

@@ -48,6 +48,15 @@ class RedisConnection {
         })
     }
 
+    async removeValue(key) {
+        return new Promise((resolve, reject) => {
+            this.client.del(key.toString(), (err, result) => {
+                if (err) reject(err);
+                resolve(result);
+            })
+        });
+    }
+
     ping() {
         return new Promise((resolve, reject) => {
             this.client.ping((error, pong) => {

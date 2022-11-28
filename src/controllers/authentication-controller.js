@@ -1,7 +1,8 @@
 const createError = require('http-errors');
 const authenticationService = require('../services/authentication-service');
-const {authenticationValidate, refreshTokenValidate } = require('../validations/authentication-validate');
+const { loginValidate, refreshTokenValidate } = require('../validations/authentication-validate');
 const userService = require('../services/user-service');
+const messageCustom = require('../helpers/message-custom');
 
 class AuthenticationController {
     async register(req, res, next) {
@@ -18,8 +19,8 @@ class AuthenticationController {
 
     async login(req, res, next) {
         try {
-            const { error } = authenticationValidate.validate(req.body);
-            if (error) throw createError.BadRequest(error.details[0].message);
+            let { error } = loginValidate.validate(req.body, { abortEarly: false });
+            if (error) throw createError.BadRequest(messageCustom.messageValidateCustom(error.details));
 
             let result = await authenticationService.login(req.body);
             if (!result) throw createError.Unauthorized("Username or password not incorrect.");
@@ -33,11 +34,11 @@ class AuthenticationController {
     async refreshToken(req, res, next) {
         try {
             let { refreshToken } = req.body;
-            const { error } = refreshTokenValidate.validate(req.body);
-            if (error) throw createError.BadRequest(error.details[0].message);
+            let { error } = refreshTokenValidate.validate(req.body, { abortEarly: false });
+            if (error) throw createError.BadRequest(messageCustom.messageValidateCustom(error.details));
 
             let result = await authenticationService.refreshToken(refreshToken);
-            if(!result) throw createError.Unauthorized("User dose not exists in database.");
+            if (!result) throw createError.Unauthorized("User dose not exists in database.");
 
             res.json(result);
         } catch (error) {
@@ -45,8 +46,17 @@ class AuthenticationController {
         }
     }
 
-    async logout(req, res, next){
-        res.json();
+    async logout(req, res, next) {
+        try {
+            let { refreshToken } = req.body;
+            let { error } = refreshTokenValidate.validate(req.body, { abortEarly: false });
+            if (error) throw createError.BadRequest(messageCustom.messageValidateCustom(error.details));
+            
+            let result = await authenticationService.logout(refreshToken);
+            if (result) res.json({message: "Logout success!"});
+        } catch (error) {
+            next(error);
+        }
     }
 }
 
