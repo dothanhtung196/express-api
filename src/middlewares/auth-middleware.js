@@ -11,11 +11,11 @@ const authMiddleware = async (req, res, next) => {
     let token = bearerToken[1];
 
     try {
-        let payload = await jwtHelper.veryfyAccessToken(token);
+        let payload = await jwtHelper.verifyAccessToken(token);
         req.payload = payload;
         return next();
     } catch (error) {
-        return next(createError.Unauthorized(error));
+        return next(createError.Unauthorized(error.message));
     }
 }
 

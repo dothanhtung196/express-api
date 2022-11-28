@@ -1,5 +1,4 @@
 const userRepository = require("../repositories/user-repository");
-const bcrypt = require('bcrypt');
 const stringCipher = require('../helpers/string-cipher');
 const jwtHelper = require("../helpers/jwt-helper");
 
@@ -17,12 +16,29 @@ class AuthenticationService {
             if (isPasswordCheck) {
                 delete user.password;
                 user.accessToken = await jwtHelper.signAccessToken(user.id);
-                user.refreshToken = await jwtHelper.asignRefreshToken(user.id);
+                user.refreshToken = await jwtHelper.signRefreshToken(user.id);
                 return user;
             } else {
                 return null
             };
         }
+    }
+
+    async refreshToken(refreshToken) {
+        let { userId } = await jwtHelper.verifyRefreshToken(refreshToken);
+
+        let user = await userRepository.GetById(userId);
+        if(user){
+            user.accessToken = await jwtHelper.signAccessToken(userId);
+            user.refreshToken = await jwtHelper.signRefreshToken(userId);
+            return user;
+        }else{
+            return null;
+        }
+    }
+
+    async logout(){
+
     }
 }
 

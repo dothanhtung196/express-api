@@ -12,4 +12,11 @@ const authenticationValidate = joi.object({
         .required(),
 });
 
-module.exports = authenticationValidate;
+const refreshTokenValidate = joi.object({
+    refreshToken: joi.string().required()
+});
+
+module.exports = {
+    authenticationValidate,
+    refreshTokenValidate
+};

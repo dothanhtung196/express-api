@@ -9,12 +9,14 @@ class StringCipher{
     async hashPassword(password) {
         const salt = await bcrypt.genSaltSync(this.round);
         let result = await bcrypt.hashSync(password.toString(), salt);
+
         if (result) return result;
-        else return false;
+        else return '';
     }
 
     async comparePassword(password, hash) {
         var result = await bcrypt.compareSync(password, hash);
+
         if (result) return result;
         else return false;
     }
