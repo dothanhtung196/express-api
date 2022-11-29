@@ -20,6 +20,10 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      statusId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       createdBy: {
         type: Sequelize.INTEGER,
         allowNull: false

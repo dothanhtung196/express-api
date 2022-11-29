@@ -2,7 +2,7 @@
   "development": {
     "username": "root",
     "password": "Dtt@123456",
-    "database": "database_development",
+    "database": "express-api",
     "host": "202.158.246.41",
     "dialect": "mysql"
   },

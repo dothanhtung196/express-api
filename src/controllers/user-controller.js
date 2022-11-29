@@ -18,7 +18,7 @@ class UserController
             let user = await userService.getByUsername(username);
 
             if(!user) throw createError.NotFound("User does not exists.")
-            res.json(user);    
+            res.json(user);
         } catch (error) {
             next(error);
         }
@@ -26,11 +26,11 @@ class UserController
 
     async getById(req, res, next) {
         try {
-            let { userId } = req.body;
-            let user = await userService.getById(userId);
+            let { id } = req.params;
+            let user = await userService.getById(id);
 
             if (!user) throw createError.NotFound("User does not exists.");
-            res.json(error);
+            res.json(user);
         } catch (error) {
             next(error);
         }
@@ -48,15 +48,15 @@ class UserController
             next(error);
         }
     }
-    
+
     async Edit(req, res, next) {
         try {
-            let { userId } = req.params;
-            let user = await userService.getById(userId);
+            let { id } = req.params;
+            let user = await userService.getById(id);
             if (!user) throw createError.NotFound("User not exists in database.");
 
-            let result = await userService.Edit(userId, req.body);
-            return res.json(result);    
+            let result = await userService.Edit(id, req.body);
+            return res.json(result);
         } catch (error) {
             next(error);
         }
@@ -64,12 +64,12 @@ class UserController
 
     async Delete(req, res, next) {
         try {
-            let { userId } = req.params;
+            let { id } = req.params;
 
-            let user = await userService.getById(userId);
+            let user = await userService.getById(id);
             if (!user) throw createError.NotFound("User not exists in database.");
 
-            let result = await userService.Delete(userId);
+            let result = await userService.Delete(id);
             return res.json(result);
         } catch (error) {
             next(error);

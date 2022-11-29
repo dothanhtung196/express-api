@@ -13,6 +13,7 @@ module.exports = {
       phone: '0987654321',
       email: 'example@example.com',
       address: '',
+      statusId: 1,
       createdAt: new Date(),
       createdBy: 0,
       updatedAt: new Date(),

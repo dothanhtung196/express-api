@@ -1,8 +1,13 @@
-GET http://localhost:3000/users HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTYyODY2NywiZXhwIjoxNjY5NjI4Njk3fQ.DMDgFjqvAkL0e7k4bxtHs293fsSfhga-aqkPO4mn2Dw
+### Global parameter
+@baseUrl = http://localhost:3000
+@accessToken = Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTcxOTE2NSwiZXhwIjoxNjY5NzIwOTY1fQ.VMDLJDrWoFAKreabVhx0315-IqA6ujPwIEfwhY4HqZE
+@refreshToken = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTcxOTE2NSwiZXhwIjoxNjcyMzExMTY1fQ.PSVRaL76f1hUHdgBsiom3RBjqBRLNWY2NCher_-_x60
 
-###
-POST http://localhost:3000/authentication/login HTTP/1.1
+#################################################################
+@authRoute = authentication
+
+### Login
+POST {{baseUrl}}/{{authRoute}}/login HTTP/1.1
 Content-Type: application/json
 
 {
@@ -10,19 +15,62 @@ Content-Type: application/json
     "password": "Dtt@123456"
 }
 
-###
-POST http://localhost:3000/authentication/refresh-token HTTP/1.1
+### Refresh token
+POST {{baseUrl}}/{{authRoute}}/refresh-token HTTP/1.1
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTYzMDQ2MiwiZXhwIjoxNjcyMjIyNDYyfQ.VPUUxHfVPq9TJ1I9XSJMD5JOfjzjVu9giyk77zvZNZs"
+    "refreshToken": {{refreshToken}}
 }
 
-
-###
-POST http://localhost:3000/authentication/logout HTTP/1.1
+### Logout
+POST {{baseUrl}}/{{authRoute}}/logout HTTP/1.1
 Content-Type: application/json
 
 {
-    "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjEsImlhdCI6MTY2OTY0NzEzNCwiZXhwIjoxNjcyMjM5MTM0fQ.DeyqmhimNy5zbaNoeJQyiu0QNz7Ac5C0G46qHrOvA8U"
+    "refreshToken": {{refreshToken}}
 }
+
+###################################################################
+@userRoute = users
+
+### Get user list
+GET {{baseUrl}}/{{userRoute}} HTTP/1.1
+Authorization: {{accessToken}}
+
+### Get user by id
+GET {{baseUrl}}/{{userRoute}}/1 HTTP/1.1
+Authorization: {{accessToken}}
+
+### Add user
+POST {{baseUrl}}/{{userRoute}} HTTP/1.1
+Authorization: {{accessToken}}
+
+Content-Type: application/json
+
+{
+
+}
+
+### Edit user
+PUT {{baseUrl}}/{{userRoute}}/1 HTTP/1.
+Authorization: {{accessToken}}
+
+Content-Type: application/json
+
+{
+
+}
+
+### Delete user
+DELETE {{baseUrl}}/{{userRoute}}/1 HTTP/1.1
+Authorization: {{accessToken}}
+
+###################################################################
+@rolesRoute = roles
+
+### Get roles list
+GET {{baseUrl}}/{{rolesRoute}} HTTP/1.1
+
+### Get role by id
+GET {{baseUrl}}/{{rolesRoute}}/2 HTTP/1.1

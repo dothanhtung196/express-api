@@ -8,11 +8,15 @@ class UserService
     }
 
     async getByUsername(username) {
-        return await userRepository.getByUsername(username);
+        let user = await userRepository.getByUsername(username);
+        delete user.password;
+        return user;
     }
 
     async getById(id) {
-        return await userRepository.GetById(id);
+        let user = await userRepository.GetById(id);
+        delete user.password;
+        return user;
     }
 
     async Add(request) {

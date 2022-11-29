@@ -3,7 +3,13 @@ const model = require('../database/models');
 class UserRepository {
 
     async getAll() {
-        return await model.User.findAll({ raw: true });
+        return await model.User.findAll({
+            raw: true,
+            include: {
+                model: model.Status,
+                as: 'Status'
+            }
+        });
     }
 
     async getByUsername(username) {
@@ -15,29 +21,11 @@ class UserRepository {
     }
 
     async Add(request) {
-        return await model.User.create({
-            username: request.username,
-            password: request.password,
-            fullName: request.fullName,
-            phone: request.phone,
-            email: request.email,
-            address: request.address,
-            createdBy: request.createdBy,
-            updatedBy: request.updatedBy,
-        });
+        return await model.User.create(request);
     }
 
     async Edit(id, request) {
-        return await model.User.update({
-            username: request.username,
-            password: request.password,
-            fullName: request.fullName,
-            phone: request.phone,
-            email: request.email,
-            address: request.address,
-            createdBy: request.createdBy,
-            updatedBy: request.updatedBy,
-        }, {
+        return await model.User.update(request, {
             where: {
                 id: id
             }

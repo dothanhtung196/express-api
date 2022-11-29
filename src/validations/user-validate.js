@@ -11,6 +11,20 @@ const userValidate = joi.object({
         .min(6)
         .max(250)
         .required(),
+    fullName: joi.string()
+        .required(),
+    phone: joi.string()
+        .required(),
+    email: joi.string()
+        .required(),
+    address: joi.string()
+        .required(),
+    statusId: joi.string()
+        .required(),
+    createdBy: joi.string()
+        .required(),
+    updatedBy: joi.string()
+        .required(),
 });
 
 module.exports = userValidate;

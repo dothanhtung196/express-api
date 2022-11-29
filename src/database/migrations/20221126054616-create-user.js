@@ -33,6 +33,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true
       },
+      statusId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+      },
       createdBy: {
         type: Sequelize.INTEGER,
         allowNull: false

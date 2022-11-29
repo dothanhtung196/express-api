@@ -19,6 +19,7 @@ class AuthenticationController {
 
     async login(req, res, next) {
         try {
+            console.log(req.ip);
             let { error } = loginValidate.validate(req.body, { abortEarly: false });
             if (error) throw createError.BadRequest(messageCustom.messageValidateCustom(error.details));
 
@@ -51,7 +52,7 @@ class AuthenticationController {
             let { refreshToken } = req.body;
             let { error } = refreshTokenValidate.validate(req.body, { abortEarly: false });
             if (error) throw createError.BadRequest(messageCustom.messageValidateCustom(error.details));
-            
+
             let result = await authenticationService.logout(refreshToken);
             if (result) res.json({message: "Logout success!"});
         } catch (error) {
