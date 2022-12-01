@@ -1,12 +1,14 @@
 const createError = require('http-errors');
+const messageCustom = require('../helpers/message-custom');
 const userService = require("../services/user-service");
+const userValidate = require('../validations/user-validate');
 
 class UserController
 {
     async getAll(req, res, next) {
         try {
             let users = await userService.getAll();
-            res.json(users);
+            res.json(messageCustom.apiResponse(users));
         } catch (error) {
             next(error);
         }
@@ -18,7 +20,7 @@ class UserController
             let user = await userService.getByUsername(username);
 
             if(!user) throw createError.NotFound("User does not exists.")
-            res.json(user);
+            res.json(messageCustom.apiResponse(user));
         } catch (error) {
             next(error);
         }
@@ -30,7 +32,7 @@ class UserController
             let user = await userService.getById(id);
 
             if (!user) throw createError.NotFound("User does not exists.");
-            res.json(user);
+            res.json(messageCustom.apiResponse(user));
         } catch (error) {
             next(error);
         }
@@ -38,12 +40,15 @@ class UserController
 
     async Add(req, res, next) {
         try {
+            let { error } = userValidate.validate(req.body, { abortEarly: false });
+            if (error) throw createError.BadRequest(messageCustom.validate(error.details));
+
             let { username } = req.body;
             let userExists = await userService.getByUsername(username);
             if (userExists) throw createError.Conflict("User does exists in database.");
 
-            let result = await userService.Add(req.body);
-            res.json(result);
+            let result = await userService.add(req.body);
+            res.json(messageCustom.apiResponse(result));
         } catch (error) {
             next(error);
         }
@@ -51,12 +56,15 @@ class UserController
 
     async Edit(req, res, next) {
         try {
+            let { error } = userValidate.validate(req.body, { abortEarly: false });
+            if (error) throw createError.BadRequest(messageCustom.validate(error.details));
+
             let { id } = req.params;
             let user = await userService.getById(id);
             if (!user) throw createError.NotFound("User not exists in database.");
 
-            let result = await userService.Edit(id, req.body);
-            return res.json(result);
+            let result = await userService.edit(id, req.body);
+            return res.json(messageCustom.apiResponse(result));
         } catch (error) {
             next(error);
         }
@@ -68,9 +76,10 @@ class UserController
 
             let user = await userService.getById(id);
             if (!user) throw createError.NotFound("User not exists in database.");
+            if(user.username == 'administrator') throw createError.BadRequest("Can not delete Administrator account.");
 
-            let result = await userService.Delete(id);
-            return res.json(result);
+            let result = await userService.delete(id);
+            return res.json(messageCustom.apiResponse(result));
         } catch (error) {
             next(error);
         }

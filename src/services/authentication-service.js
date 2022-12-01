@@ -6,7 +6,7 @@ const redisConnection = require("../helpers/redis-connection");
 class AuthenticationService {
     async register(request) {
         request.password = await stringCipher.hashPassword(request.password);
-        return await userRepository.Add(request);
+        return await userRepository.add(request);
     }
 
     async login({ username, password }) {
@@ -28,19 +28,19 @@ class AuthenticationService {
     async refreshToken(refreshToken) {
         let { userId } = await jwtHelper.verifyRefreshToken(refreshToken);
 
-        let user = await userRepository.GetById(userId);
-        if(user){
+        let user = await userRepository.getById(userId);
+        if (user) {
             user.accessToken = await jwtHelper.signAccessToken(userId);
             user.refreshToken = await jwtHelper.signRefreshToken(userId);
             return user;
-        }else{
+        } else {
             return null;
         }
     }
 
     async logout(refreshToken) {
         let { userId } = await jwtHelper.verifyRefreshToken(refreshToken);
-        let result = await redisConnection.removeValue(`user-${userId}`);
+        let result = await redisConnection.removeValue(`RefreshToken-${userId}`);
         return result;
     }
 }

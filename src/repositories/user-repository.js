@@ -16,24 +16,25 @@ class UserRepository {
         return await model.User.findOne({ where: { username: username }, raw: true });
     }
 
-    async GetById(id) {
+    async getById(id) {
         return await model.User.findByPk(id, { raw: true });
     }
 
-    async Add(request) {
+    async add(request) {
         return await model.User.create(request);
     }
 
-    async Edit(id, request) {
+    async edit(id, request) {
         return await model.User.update(request, {
             where: {
                 id: id
-            }
+            },
+            raw: true
         });
     }
 
-    async Delete(id) {
-        return await model.USer.destroy({
+    async delete(id) {
+        return await model.User.destroy({
             where: {
                 id: id
             }

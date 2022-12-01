@@ -7,7 +7,7 @@ class StringCipher{
     }
 
     async hashPassword(password) {
-        const salt = await bcrypt.genSaltSync(this.round);
+        const salt = await bcrypt.genSaltSync(Number(this.round));
         let result = await bcrypt.hashSync(password.toString(), salt);
 
         if (result) return result;

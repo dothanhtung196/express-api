@@ -16,11 +16,19 @@ class RoleRepository {
     }
 
     async edit(id, request){
-
+        return await model.Role.update(request, {
+            where: {
+                id: id
+            }
+        })
     }
 
     async delete(id){
-
+        return await model.Role.destroy({
+            where: {
+                id: id
+            }
+        })
     }
 }
 

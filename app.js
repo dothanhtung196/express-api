@@ -3,7 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const { handleNotFound, handleError } = require('./src/middlewares/error-handler-middleware');
+const { handleNotFound, handleError } = require('./src/middleware/error-handler-middleware');
 
 var indexRouter = require('./src/routes/index-route');
 var usersRouter = require('./src/routes/users-route');

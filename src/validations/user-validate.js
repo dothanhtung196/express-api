@@ -7,7 +7,6 @@ const userValidate = joi.object({
         .max(250)
         .required(),
     password: joi.string()
-        .alphanum()
         .min(6)
         .max(250)
         .required(),
@@ -16,6 +15,7 @@ const userValidate = joi.object({
     phone: joi.string()
         .required(),
     email: joi.string()
+        .email()
         .required(),
     address: joi.string()
         .required(),

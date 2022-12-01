@@ -1,11 +1,13 @@
 const joi = require('joi');
 
-const roleAddValidate = joi.object({
+const roleValidate = joi.object({
     name: joi.string()
         .required(),
     userId: joi.number()
         .required(),
-    statusId: joi.string()
+    code: joi.string()
+        .required(),
+    statusId: joi.number()
         .required(),
     createdBy: joi.string()
         .required(),
@@ -13,4 +15,4 @@ const roleAddValidate = joi.object({
         .required(),
 });
 
-module.exports = {roleAddValidate};
+module.exports = {roleValidate};

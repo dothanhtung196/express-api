@@ -18,6 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   Permission.init({
     name: DataTypes.STRING,
     roleId: DataTypes.INTEGER,
+    code: DataTypes.STRING,
     statusId: DataTypes.INTEGER,
     createdBy: DataTypes.INTEGER,
     updatedBy: DataTypes.INTEGER,
