@@ -1,24 +1,29 @@
 const createError = require('http-errors');
-const roles = [{code: 'Admin'}, {ClipboardItem: 'User'}];
+const roleService = require('../services/role-service');
+const userService = require('../services/user-service');
 
-const roleAuthorization = (role) => {
+const roleAuthorization = (parameters) => {
     return async (req, res, next) => {
-        console.log(role)
-        // if(!role || !roles.some(x => x.code == role)) throw createError.Unauthorized("You don't have permission.");
+        if (parameters.length == 0) throw new Error("Role parameter is undefined.");
 
-        // if (!req.headers['authorization']) return next(createError.Unauthorized());
+        try {
+            let { userId } = req.payload;
 
-        // let authHeader = req.headers['authorization'];
-        // let bearerToken = authHeader.split(' ');
-        // let token = bearerToken[1];
+            let user = await userService.getById(userId);
+            if(!user) throw new Error("Can not get user from database");
 
-        // try {
-        //     let payload = await jwtHelper.verifyAccessToken(token);
-        //     req.payload = payload;
-        // } catch (error) {
-        //     return next(createError.Unauthorized(error.message));
-        // }
-        next();
+            let role = await roleService.getRoleByUserId(userId);
+
+            if (!role) throw new Error("Can not get role from database");
+
+            if (parameters.some(x => x == role.code)) {
+                return next();
+            } else {
+                throw createError("User don't have permission.");
+            }
+        } catch (error) {
+            return next(createError.Unauthorized(error.message));
+        }
     }
 }
 

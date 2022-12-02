@@ -13,6 +13,7 @@ const authMiddleware = async (req, res, next) => {
     try {
         let payload = await jwtHelper.verifyAccessToken(token);
         req.payload = payload;
+
         return next();
     } catch (error) {
 

@@ -2,23 +2,22 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable('Permissions', {
+    await queryInterface.createTable('RolePermissions', {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER
       },
-      code: {
-        type: Sequelize.STRING(25),
-        allowNull: true
-      },
-      name: {
-        type: Sequelize.STRING
-      },
-      statusId: {
+      roleId: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        primaryKey: true,
+      },
+      permissionId: {
+        type: Sequelize.INTEGER,
+        allowNull: false,
+        primaryKey: true,
       },
       createdBy: {
         type: Sequelize.INTEGER,
@@ -39,6 +38,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('Permissions');
+    await queryInterface.dropTable('RolePermissions');
   }
 };

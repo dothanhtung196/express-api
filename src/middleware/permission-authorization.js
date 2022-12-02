@@ -1,17 +1,28 @@
 const createError = require('http-errors');
+const rolePermissionService = require('../services/role-permission-service');
+const userService = require('../services/user-service');
+const roleService = require('../services/role-service');
 
-const permissionMiddleware = (req, res, next) => {
-    if (!req.headers['authorization']) return next(createError.Unauthorized());
+const permissionAuthorization = (parameters) => {
+    return async (req, res, next) => {
+        if (parameters.length == 0) throw new Error("Permission parameter is undefined.");
 
-    let authHeader = req.headers['authorization'];
-    let bearerToken = authHeader.split(' ');
-    let token = bearerToken[1];
+        try {
+            let { userId } = req.payload;
 
-    try {
+            let user = await userService.getById(userId);
+            if(!user) throw new Error("Can not get user from database");
 
-    } catch (error) {
-        return next(createError.Unauthorized(error.message));
+            let role = await roleService.getRoleByUserId(userId);
+            if (!role) throw new Error("Can not get role from database");
+
+            let permissionIds = (await rolePermissionService.getByRoleId(role.id)).map(x => (x.permissionId));
+            console.log('-----------------', req.baseUrl);
+            return next();
+        } catch (error) {
+            return next(createError.Unauthorized(error.message));
+        }
     }
 }
 
-module.exports = permissionMiddleware;
+module.exports = permissionAuthorization;

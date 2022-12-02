@@ -15,9 +15,9 @@
   },
   "production": {
     "username": "root",
-    "password": null,
-    "database": "database_production",
-    "host": "127.0.0.1",
+    "password": "Dtt@123456",
+    "database": "express-api",
+    "host": "202.158.246.41",
     "dialect": "mysql"
   }
 }

@@ -7,7 +7,7 @@
 
 #################################################################
 
-@authRoute = authentication
+@authRoute = authentications
 
 ###
 # @name Login
@@ -92,78 +92,6 @@ Content-Type: application/json
 DELETE {{baseUrl}}/{{userRoute}}/2 HTTP/1.1
 Authorization: {{accessToken}}
 
-###################################################################
-@rolesRoute = roles
-
 ###
-# @name GetRoleList
-GET {{baseUrl}}/{{rolesRoute}} HTTP/1.1
-Authorization: {{accessToken}}
-
-###
-# @name GetRoleById
-GET {{baseUrl}}/{{rolesRoute}}/2 HTTP/1.1
-Authorization: {{accessToken}}
-
-###
-# @name AddRole
-POST {{baseUrl}}/{{rolesRoute}} HTTP/1.1
-Authorization: {{accessToken}}
-Content-Type: application/json
-
-{
-
-}
-
-###
-# @name EditRole
-PUT {{baseUrl}}/{{rolesRoute}} HTTP/1.1
-Authorization: {{accessToken}}
-Content-Type: application/json
-
-{
-
-}
-
-###
-# @name DeleteRole
-DELETE {{baseUrl}}/{{rolesRoute}}/1 HTTP/1.1
-Authorization: {{accessToken}}
-
-###################################################################
-@permissionRoute = permissions
-
-###
-# @name GetPermissionList
-GET {{baseUrl}}/{{permissionRoute}} HTTP/1.1
-Authorization: {{accessToken}}
-
-###
-# @name GetPermissionById
-GET {{baseUrl}}/{{permissionRoute}}/2 HTTP/1.1
-Authorization: {{accessToken}}
-
-###
-# @name AddPermission
-POST {{baseUrl}}/{{permissionRoute}} HTTP/1.1
-Authorization: {{accessToken}}
-Content-Type: application/json
-
-{
-
-}
-
-###
-# @name EditPermission
-PUT {{baseUrl}}/{{permissionRoute}} HTTP/1.1
-Authorization: {{accessToken}}
-Content-Type: application/json
-
-{
-
-}
-
-###
-# @name DeletePermission
-DELETE {{baseUrl}}/{{permissionRoute}}/1 HTTP/1.1
-Authorization: {{accessToken}}
+# @name Test
+GET {{baseUrl}} HTTP/1.1

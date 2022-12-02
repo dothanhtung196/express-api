@@ -24,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     email: DataTypes.STRING,
     address: DataTypes.TEXT,
     statusId: DataTypes.INTEGER,
+    deleteFlag: DataTypes.BOOLEAN,
     createdBy: DataTypes.INTEGER,
     updatedBy: DataTypes.INTEGER,
   }, {

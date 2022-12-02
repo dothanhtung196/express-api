@@ -5,7 +5,7 @@ const userService = require('../services/user-service');
 const messageCustom = require('../helpers/message-custom');
 const redisConnection = require('../helpers/redis-connection');
 
-class AuthenticationController {
+class AuthenticationsController {
     async register(req, res, next) {
         try {
             console.log(req.path);
@@ -62,4 +62,4 @@ class AuthenticationController {
     }
 }
 
-module.exports = new AuthenticationController();
+module.exports = new AuthenticationsController();

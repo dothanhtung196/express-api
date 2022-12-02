@@ -14,6 +14,7 @@ module.exports = {
       email: 'admin@admin.com',
       address: '',
       statusId: 1,
+      deleteFlag: false,
       createdAt: new Date(),
       createdBy: 0,
       updatedAt: new Date(),

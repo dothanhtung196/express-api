@@ -3,7 +3,7 @@ const messageCustom = require('../helpers/message-custom');
 const userService = require("../services/user-service");
 const userValidate = require('../validations/user-validate');
 
-class UserController
+class UsersController
 {
     async getAll(req, res, next) {
         try {
@@ -86,4 +86,4 @@ class UserController
     }
 }
 
-module.exports = new UserController();
+module.exports = new UsersController();

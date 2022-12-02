@@ -19,7 +19,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', require('./src/routes/index-route'));
 app.use('/users', require('./src/routes/users-route'));
-app.use('/authentication', require('./src/routes/authentication-route'));
+app.use('/authentications', require('./src/routes/authentication-route'));
+app.use('menu', require('./src/routes/menu-route'));
 
 // catch 404 and forward to error handler
 app.use(handleNotFound);

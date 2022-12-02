@@ -37,6 +37,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      deleteFlag: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+      },
       createdBy: {
         type: Sequelize.INTEGER,
         allowNull: false

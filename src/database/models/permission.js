@@ -11,13 +11,12 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Permission.hasMany(models.Role, { foreignKey: 'id', as: 'Role' });
       Permission.hasMany(models.Status, {foreignKey: 'id', as: 'Status'});
+      Permission.hasOne(models.RolePermission, {foreignKey: 'roleId', as: 'rolePermission'});
     }
   }
   Permission.init({
     name: DataTypes.STRING,
-    roleId: DataTypes.INTEGER,
     code: DataTypes.STRING,
     statusId: DataTypes.INTEGER,
     createdBy: DataTypes.INTEGER,

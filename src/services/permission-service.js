@@ -9,6 +9,10 @@ class PermissionService
     async getById(id){
         return await permissionRepository.getById(id);
     }
+
+    async getByIds(ids){
+        return await permissionRepository.getByIds(ids);
+    }
 }
 
 module.exports = new PermissionService();
