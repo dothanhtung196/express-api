@@ -3,12 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
-const { handleNotFound, handleError } = require('./src/middlewares/error-handler-middleware');
-
-var indexRouter = require('./src/routes/index-route');
-var usersRouter = require('./src/routes/users-route');
-var authenticationRoute = require('./src/routes/authentication-route');
-var roleRoute = require('./src/routes/role-route');
+const { handleNotFound, handleError } = require('./src/middleware/error-handler-middleware');
 
 var app = express();
 
@@ -22,10 +17,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', indexRouter);
-app.use('/users', usersRouter);
-app.use('/authentication', authenticationRoute);
-app.use('/roles', roleRoute);
+app.use('/', require('./src/routes/index-route'));
+app.use('/users', require('./src/routes/users-route'));
+app.use('/authentication', require('./src/routes/authentication-route'));
 
 // catch 404 and forward to error handler
 app.use(handleNotFound);

@@ -9,27 +9,30 @@ class UserService
 
     async getByUsername(username) {
         let user = await userRepository.getByUsername(username);
-        delete user.password;
+        if(user) delete user.password;
         return user;
     }
 
     async getById(id) {
-        let user = await userRepository.GetById(id);
-        delete user.password;
+        let user = await userRepository.getById(id);
+        if(user) delete user.password;
         return user;
     }
 
-    async Add(request) {
+    async add(request) {
         request.password = await stringCipher.hashPassword(request.password);
-        return await userRepository.Add(request);
+        let result =  await userRepository.add(request);
+        if(result) delete result.password;
+        return result;
     }
 
-    async Edit(id, request) {
-        return await userRepository.Edit(id, request);
+    async edit(id, request) {
+        delete request.username;
+        return await userRepository.edit(id, request);
     }
 
-    async Delete(id) {
-        return await userRepository.Delete(id);
+    async delete(id) {
+        return await userRepository.delete(id);
     }
 }
 

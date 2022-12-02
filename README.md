@@ -1,45 +1,70 @@
-## Sequelize init
+## 1. Sequelize Database
+
+### Sequelize init
 ```sh
     npx sequelize-cli init
 ```
 
-## Create database
+### Create database
 ``` sh
     npx sequelize-cli db:create
 ```
 
-## Create table and model
+### Drop database
+``` sh
+    npx sequelize-cli db:drop
+```
+
+## 2. Sequelize migration
+
+### Create table and model
 ``` sh
     npx sequelize-cli model:generate --name <table_name> --attributes <name>:<type>
 ```
 
-## Migration database
+### Migration database
 ``` sh
     npx sequelize-cli db:migrate
 ```
 
-## Undo migration
+### Undo migration
 ```sh
     npx sequelize-cli db:migrate:undo
 ```
 
-## Create seed file
+### Undo all migration
+``` sh
+    npx sequelize-cli db:seed:undo:all
+```
+
+## 3. Sequelize Seeder
+
+### Create seed file
 ``` sh
     npx sequelize-cli seed:generate --name <name>
 ```
 
-## Seeder data
+### Seeder data
 ``` sh
     npx sequelize-cli db:seed:all
 ```
 
-## Undo Seed
+### Seeder specified file
+``` sh
+    npx sequelize-cli db:seed <name file>
+```
+
+### Undo Seed
 ``` sh
     npx sequelize-cli db:seed:undo
 ```
 
-## Seeder specific file
+## Reset database
 ``` sh
-    npx sequelize-cli db:seed:undo --seed name-of-seed-as-in-data
+    npx sequelize-cli db:drop
+    npx sequelize-cli db:create
+    npx sequelize-cli db:migrate
+    npx sequelize-cli db:seed:all
+
 ```
 

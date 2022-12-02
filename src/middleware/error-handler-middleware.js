@@ -12,7 +12,8 @@ const handleError = (err, req, res, next) => {
     // render the error page
     res.status(err.status || 500);
     res.json({
-        status: err.status || 500,
+        // status: err.status || 500,
+        isSuccess: false,
         message: err.message
     });
 }

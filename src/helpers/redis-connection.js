@@ -1,5 +1,4 @@
 const redis = require('redis');
-var createError = require('http-errors');
 
 class RedisConnection {
     constructor() {
@@ -11,7 +10,18 @@ class RedisConnection {
             }
         });
 
-        this.client.on('error', (err) => createError.InternalServerError(`Redis: ${err}`));
+        this.client.on('error', (err) =>
+        {
+            throw new Error(`Redis: ${err}`)
+        });
+    }
+
+    async connect(){
+        await this.client.connect();
+    }
+
+    async disconnect(){
+        await this.client.disconnect();
     }
 
     async setValue(key, value) {
