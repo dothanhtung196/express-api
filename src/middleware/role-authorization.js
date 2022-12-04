@@ -19,7 +19,7 @@ const roleAuthorization = (parameters) => {
             if (parameters.some(x => x == role.code)) {
                 return next();
             } else {
-                throw createError("User don't have permission.");
+                throw createError.Unauthorized("User don't have permission.");
             }
         } catch (error) {
             return next(createError.Unauthorized(error.message));

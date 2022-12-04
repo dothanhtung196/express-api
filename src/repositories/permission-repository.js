@@ -13,7 +13,7 @@ class PermissionRepository {
     async getByIds(ids){
         return await model.Permission.findAll({
             where: {
-                roleId: {
+                id: {
                     [Op.in]: ids
                 }
             },

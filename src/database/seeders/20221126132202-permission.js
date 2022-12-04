@@ -5,7 +5,7 @@ module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.bulkInsert('Permissions', [{
       name: 'Read',
-      code: 'Users.Read',
+      code: 'read',
       statusId: 5,
       createdAt: new Date(),
       createdBy: 0,
@@ -14,7 +14,7 @@ module.exports = {
     },
     {
       name: 'Add',
-      code: 'Users.Add',
+      code: 'add',
       statusId: 5,
       createdAt: new Date(),
       createdBy: 0,
@@ -23,7 +23,7 @@ module.exports = {
     },
     {
       name: 'Edit',
-      code: 'Users.Edit',
+      code: 'edit',
       statusId: 5,
       createdAt: new Date(),
       createdBy: 0,
@@ -32,7 +32,7 @@ module.exports = {
     },
     {
       name: 'Delete',
-      code: 'Users.Delete',
+      code: 'delete',
       statusId: 5,
       createdAt: new Date(),
       createdBy: 0,
@@ -41,7 +41,7 @@ module.exports = {
     },
     {
       name: 'Import',
-      code: 'Users.Import',
+      code: 'import',
       statusId: 5,
       createdAt: new Date(),
       createdBy: 0,
@@ -50,7 +50,7 @@ module.exports = {
     },
     {
       name: 'Export',
-      code: 'Users.Export',
+      code: 'export',
       statusId: 5,
       createdAt: new Date(),
       createdBy: 0,
