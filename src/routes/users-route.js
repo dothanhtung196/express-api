@@ -16,6 +16,177 @@ router.use(authMiddleware);
 
 /**
  * @swagger
+ * /users:
+ *   get:
+ *     tags:
+ *       - Users
+ *     description: ''
+ *     responses:
+ *       '200':
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 $ref: '#/components/schemas/User'
+ *     security:
+ *       - bearerAuth: []
+ *   post:
+ *     tags:
+ *       - Users
+ *     description: 'Add user'
+ *
+ */
+
+router.get('/', permissionAuthorization('read'), usersController.getAll);
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   get:
+ *     tags:
+ *       - Users
+ *     description: ''
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ''
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           format: int64
+ *     responses:
+ *       '200':
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       '404':
+ *         description: Not found
+ *     security:
+ *       - bearerAuth: []
+ */
+router.get('/:id', usersController.getById);
+
+/**
+ * @swagger
+ * /users/getByUsername:
+ *   post:
+ *     tags:
+ *       - Users
+ *     description: ''
+ *     requestBody:
+ *         description: Login with username and password
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 username:
+ *                   type: string
+ *                   example: administrator
+ *         required: true
+ *     responses:
+ *       '200':
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *       '404':
+ *         description: Not found
+ *     security:
+ *       - bearerAuth: []
+ */
+router.get('/get-by-username', usersController.getByUsername);
+
+/**
+ * @swagger
+ * /users:
+ *   post:
+ *     tags:
+ *       - Users
+ *     description: Add user
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       '200':
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *     security:
+ *       - bearerAuth: []
+ */
+router.post('/', usersController.Add);
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   put:
+ *     tags:
+ *       - Users
+ *     description: Edit user
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ''
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           format: int64
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *     responses:
+ *       '200':
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *     security:
+ *       - bearerAuth: []
+ */
+router.put('/:id', usersController.Edit);
+
+/**
+ * @swagger
+ * /users/{id}:
+ *   delete:
+ *     tags:
+ *       - Users
+ *     description: Edit user
+ *     parameters:
+ *       - name: id
+ *         in: path
+ *         description: ''
+ *         required: true
+ *         schema:
+ *           type: integer
+ *           format: int64
+ *     responses:
+ *       '200':
+ *         description: Success
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/User'
+ *     security:
+ *       - bearerAuth: []
+ */
+router.delete('/:id', usersController.Delete);
+
+/**
+ * @swagger
  * components:
  *   schemas:
  *     User:
@@ -60,12 +231,5 @@ router.use(authMiddleware);
  *           format: int64
  *           example: 0
  */
-
-router.get('/', permissionAuthorization('read'), usersController.getAll);
-router.get('/:id', usersController.getById)
-router.get('/get-by-username', usersController.getByUsername);
-router.post('/', usersController.Add);
-router.put('/:id', usersController.Edit);
-router.delete('/:id', usersController.Delete);
 
 module.exports = router;

@@ -7,7 +7,7 @@ class UserRepository {
             raw: true,
             include: {
                 model: model.Status,
-                as: 'Status'
+                as: 'status'
             }
         });
     }

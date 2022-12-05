@@ -17,11 +17,16 @@ const options = {
                     scheme: 'bearer',
                     bearerFormat: 'JWT'
                 }
+            },
+            responses: {
+                unauthorizedError: {
+                    description: 'Access token is missing or invalid'
+                }
             }
         },
-        security: {
+        security: [{
             bearerAuth: []
-        }
+        }]
     },
     apis: ['./src/routes/*route.js'],
 };

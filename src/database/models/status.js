@@ -10,9 +10,9 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      Status.hasOne(models.User,{ foreignKey: 'statusId', as: 'User' });
-      Status.hasOne(models.Role,{ foreignKey: 'statusId', as: 'Role' });
-      Status.hasOne(models.Permission,{ foreignKey: 'statusId', as: 'Permission' });
+      Status.hasOne(models.User,{ foreignKey: 'statusId', as: 'user' });
+      Status.hasOne(models.Role,{ foreignKey: 'statusId', as: 'role' });
+      Status.hasOne(models.Permission,{ foreignKey: 'statusId', as: 'permission' });
     }
   }
   Status.init({
