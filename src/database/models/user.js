@@ -14,6 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       User.hasOne(models.Role, { foreignKey: 'userId', as: 'role' }),
       User.hasMany(models.Status, {foreignKey: 'id', as: 'status'})
+      User.hasOne(models.Claim, { foreignKey: 'userId', as: 'claim' })
     }
   }
   User.init({
@@ -23,6 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     phone: DataTypes.STRING,
     email: DataTypes.STRING,
     address: DataTypes.TEXT,
+    lastLoginIp: DataTypes.STRING,
     statusId: DataTypes.INTEGER,
     deleteFlag: DataTypes.BOOLEAN,
     createdBy: DataTypes.INTEGER,

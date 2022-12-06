@@ -1,18 +1,17 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var authenticationsController = require('../controllers/authentications-controller');
-const authMiddleware = require('../middleware/auth-middleware');
-const roleAuthorization = require('../middleware/role-authorization');
-
+var authenticationsController = require("../controllers/authentications-controller");
+const authMiddleware = require("../middleware/auth-middleware");
+const roleAuthorization = require("../middleware/role-authorization");
 
 /**
  * @swagger
-* tags:
-*   - name: Authentications
-*     description: Authentication
-*/
+ * tags:
+ *   - name: Authentications
+ *     description: Authentication
+ */
 
-router.post('/register', authenticationsController.register);
+router.post("/register", authenticationsController.register);
 
 /**
  * @swagger
@@ -49,9 +48,9 @@ router.post('/register', authenticationsController.register);
  *           description: Pet not found
  *         '405':
  *           description: Validation exception
-*/
+ */
 
-router.post('/login', authenticationsController.login);
+router.post("/login", authenticationsController.login);
 
 /**
  * @swagger
@@ -83,8 +82,8 @@ router.post('/login', authenticationsController.login);
  *            description: User not found
  *          '405':
  *            description: Validation exception
-*/
-router.post('/refresh-token', authenticationsController.refreshToken);
+ */
+router.post("/refresh-token", authenticationsController.refreshToken);
 
 /**
  * @swagger
@@ -110,6 +109,6 @@ router.post('/refresh-token', authenticationsController.refreshToken);
  *      security:
  *        - bearerAuth: []
  */
-router.post('/logout', authMiddleware, authenticationsController.logout);
+router.post("/logout", authMiddleware, authenticationsController.logout);
 
 module.exports = router;

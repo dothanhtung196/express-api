@@ -37,6 +37,10 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false,
       },
+      lastLoginIp: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       deleteFlag: {
         type: Sequelize.BOOLEAN,
         allowNull: false

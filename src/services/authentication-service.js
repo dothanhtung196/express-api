@@ -1,7 +1,8 @@
 const userRepository = require("../repositories/user-repository");
-const stringCipher = require('../helpers/string-cipher');
+const stringCipher = require("../helpers/string-cipher");
 const jwtHelper = require("../helpers/jwt-helper");
 const redisConnection = require("../helpers/redis-connection");
+const claimService = require("./claim-service");
 
 class AuthenticationService {
     async register(request) {
@@ -16,12 +17,24 @@ class AuthenticationService {
 
             if (isPasswordCheck) {
                 delete user.password;
-                user.accessToken = await jwtHelper.signAccessToken(user.id);
-                user.refreshToken = await jwtHelper.signRefreshToken(user.id);
+
+                let claim = {
+                    userId: user.id,
+                };
+
+                let claims = await claimService.getByUserId(user.id);
+                if (claims && claim.length > 0) {
+                    claims.forEach((item) => {
+                        claim[item.claimType] = item.claimValue;
+                    });
+                }
+
+                user.accessToken = await jwtHelper.signAccessToken(claim);
+                user.refreshToken = await jwtHelper.signRefreshToken(claim);
                 return user;
             } else {
-                return null
-            };
+                return null;
+            }
         }
     }
 
@@ -30,8 +43,19 @@ class AuthenticationService {
 
         let user = await userRepository.getById(userId);
         if (user) {
-            user.accessToken = await jwtHelper.signAccessToken(userId);
-            user.refreshToken = await jwtHelper.signRefreshToken(userId);
+            let claim = {
+                userId: user.id,
+            };
+
+            let claims = await claimService.getByUserId(user.id);
+            if (claims && claim.length > 0) {
+                claims.forEach((item) => {
+                    claim[item.claimType] = item.claimValue;
+                });
+            }
+
+            user.accessToken = await jwtHelper.signAccessToken(claim);
+            user.refreshToken = await jwtHelper.signRefreshToken(claim);
             return user;
         } else {
             return null;

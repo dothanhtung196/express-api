@@ -9,10 +9,8 @@ class JwtHelper {
         this.refreshTokenSecret = process.env.REFRESH_TOKEN_SECRET_KEY;
     }
 
-    async signAccessToken(userId) {
-        const payload = {
-            userId
-        };
+    async signAccessToken(claim) {
+        const payload = Object.assign(claim);
 
         const options = {
             expiresIn: process.env.ACCESS_TOKEN_EXPIRED || '5m',
@@ -35,13 +33,13 @@ class JwtHelper {
         }
     }
 
-    async signRefreshToken(userId) {
+    async signRefreshToken(claim) {
+        let {userId } = claim;
+
         let refreshTokenExpired = process.env.REFRESH_TOKEN_EXPIRED || '30d';
         let refreshTokenExpiredRedis = Number(refreshTokenExpired.substring(0, refreshTokenExpired.length - 2)) * 24 * 60 * 60 || 2592000;
 
-        const payload = {
-            userId
-        };
+        const payload = Object.assign(claim);
 
         const options = {
             expiresIn: refreshTokenExpired,

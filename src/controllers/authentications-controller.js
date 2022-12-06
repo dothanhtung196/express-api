@@ -8,7 +8,6 @@ const redisConnection = require('../helpers/redis-connection');
 class AuthenticationsController {
     async register(req, res, next) {
         try {
-            console.log(req.path);
             let userExists = await userService.getByUsername(req.body.username);
             if (userExists) throw createError.Conflict("User does exists in database.");
 
@@ -24,10 +23,13 @@ class AuthenticationsController {
             let { error } = loginValidate.validate(req.body, { abortEarly: false });
             if (error) throw createError.BadRequest(messageCustom.validate(error.details));
 
-            let result = await authenticationService.login(req.body);
-            if (!result) throw createError.Unauthorized("Username or password not incorrect.");
+            let user = await authenticationService.login(req.body);
+            if (!user) throw createError.Unauthorized("Username or password not incorrect.");
 
-            res.json(messageCustom.apiResponse(result));
+            user.lastLoginIp = req.ip;
+            await userService.edit(user.id, user);
+
+            res.json(messageCustom.apiResponse(user));
         } catch (error) {
             next(error);
         }
@@ -39,10 +41,16 @@ class AuthenticationsController {
             let { error } = refreshTokenValidate.validate(req.body, { abortEarly: false });
             if (error) throw createError.BadRequest(messageCustom.validate(error.details));
 
-            let result = await authenticationService.refreshToken(refreshToken);
-            if (!result) throw createError.Unauthorized("User dose not exists in database.");
+            let user = await authenticationService.refreshToken(refreshToken);
 
-            res.json(messageCustom.apiResponse(result));
+            if(user.lastLoginIp != req.ip) {
+                await redisConnection.removeValue(`RefreshToken-${userId}`);
+                throw createError.NotAcceptable("Your ip has change. Please login again.");
+            }
+
+            if (!user) throw createError.Unauthorized("User dose not exists in database.");
+
+            res.json(messageCustom.apiResponse(user));
         } catch (error) {
             next(error);
         }
