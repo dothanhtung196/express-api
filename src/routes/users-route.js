@@ -72,7 +72,7 @@ router.get('/:id', usersController.getById);
 
 /**
  * @swagger
- * /users/getByUsername:
+ * /users/get-by-username:
  *   post:
  *     tags:
  *       - Users
@@ -100,7 +100,7 @@ router.get('/:id', usersController.getById);
  *     security:
  *       - bearerAuth: []
  */
-router.get('/get-by-username', usersController.getByUsername);
+router.post('/get-by-username', usersController.getByUsername);
 
 /**
  * @swagger

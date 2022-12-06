@@ -1,3 +1,4 @@
+require('dotenv').config();
 const userRepository = require("../repositories/user-repository");
 const stringCipher = require("../helpers/string-cipher");
 const jwtHelper = require("../helpers/jwt-helper");
@@ -11,6 +12,9 @@ class AuthenticationService {
     }
 
     async login({ username, password }) {
+        let refreshTokenExpired = process.env.REFRESH_TOKEN_EXPIRED || '30d';
+        let refreshTokenExpiredRedis = Number(refreshTokenExpired.substring(0, refreshTokenExpired.length - 2)) * 24 * 60 * 60 || 2592000;
+
         let user = await userRepository.getByUsername(username);
         if (user) {
             let isPasswordCheck = await stringCipher.comparePassword(password, user.password);
@@ -31,6 +35,9 @@ class AuthenticationService {
 
                 user.accessToken = await jwtHelper.signAccessToken(claim);
                 user.refreshToken = await jwtHelper.signRefreshToken(claim);
+
+                await redisConnection.setValueExpired(`RefreshToken-${user.id}`, user.refreshToken, refreshTokenExpiredRedis);
+
                 return user;
             } else {
                 return null;
@@ -39,7 +46,14 @@ class AuthenticationService {
     }
 
     async refreshToken(refreshToken) {
-        let { userId } = await jwtHelper.verifyRefreshToken(refreshToken);
+        let payload = await jwtHelper.verifyRefreshToken(refreshToken);
+        
+        let tokenCache = await redisConnection.getValue(`RefreshToken-${payload.userId}`);
+        if (tokenCache != refreshToken) {
+            throw new Error("Refresh token does not exists in database.")
+        }
+
+        let { userId } = payload;
 
         let user = await userRepository.getById(userId);
         if (user) {

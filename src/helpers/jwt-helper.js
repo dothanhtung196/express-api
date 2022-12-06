@@ -34,10 +34,7 @@ class JwtHelper {
     }
 
     async signRefreshToken(claim) {
-        let {userId } = claim;
-
         let refreshTokenExpired = process.env.REFRESH_TOKEN_EXPIRED || '30d';
-        let refreshTokenExpiredRedis = Number(refreshTokenExpired.substring(0, refreshTokenExpired.length - 2)) * 24 * 60 * 60 || 2592000;
 
         const payload = Object.assign(claim);
 
@@ -47,7 +44,6 @@ class JwtHelper {
 
         try {
             let token = await this.signAsync(payload, this.refreshTokenSecret, options);
-            await redisConnection.setValueExpired(`RefreshToken-${userId}`, token, refreshTokenExpiredRedis);
             return token;
         } catch (error) {
             throw new Error(error);
@@ -57,9 +53,7 @@ class JwtHelper {
     async verifyRefreshToken(refreshToken) {
         try {
             let payload = await this.verifyAsync(refreshToken, this.refreshTokenSecret);
-            let tokenCache = await redisConnection.getValue(`RefreshToken-${payload.userId}`);
-            if (tokenCache == refreshToken) return payload;
-            else throw new Error("Refresh token does not exists in database.");
+            return payload;
         } catch (error) {
             throw new Error(error);
         }
