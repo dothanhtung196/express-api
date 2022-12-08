@@ -1,7 +1,5 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
-const redisConnection = require('./redis-connection');
-
 
 class JwtHelper {
     constructor() {

@@ -1,34 +1,36 @@
-const swaggerJsdoc = require('swagger-jsdoc');
-const fs = require('fs');
+const swaggerJsdoc = require("swagger-jsdoc");
+const fs = require("fs");
 
 const options = {
     failOnErrors: true, // Whether or not to throw when parsing errors. Defaults to false.
     definition: {
-        openapi: '3.0.0',
+        openapi: "3.0.0",
         info: {
-            title: 'express-api',
-            version: '1.0.0',
-            description: "express-api"
+            title: "express-api",
+            version: "1.0.0",
+            description: "express-api",
         },
         components: {
             securitySchemes: {
                 bearerAuth: {
-                    type: 'http',
-                    scheme: 'bearer',
-                    bearerFormat: 'JWT'
-                }
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT",
+                },
             },
             responses: {
                 unauthorizedError: {
-                    description: 'Access token is missing or invalid'
-                }
-            }
+                    description: "Access token is missing or invalid",
+                },
+            },
         },
-        security: [{
-            bearerAuth: []
-        }]
+        security: [
+            {
+                bearerAuth: [],
+            },
+        ],
     },
-    apis: ['./src/routes/*route.js'],
+    apis: ["./src/routes/*route.js"],
 };
 
 const openApiSpecification = swaggerJsdoc(options);

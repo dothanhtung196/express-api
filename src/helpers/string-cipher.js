@@ -1,7 +1,7 @@
-require('dotenv').config();
-const bcrypt = require('bcrypt');
+require("dotenv").config();
+const bcrypt = require("bcrypt");
 
-class StringCipher{
+class StringCipher {
     constructor() {
         this.round = process.env.ROUND;
     }
@@ -11,7 +11,7 @@ class StringCipher{
         let result = await bcrypt.hashSync(password.toString(), salt);
 
         if (result) return result;
-        else return '';
+        else return "";
     }
 
     async comparePassword(password, hash) {

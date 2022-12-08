@@ -95,3 +95,20 @@ Authorization: {{accessToken}}
 ###
 # @name Test
 GET {{baseUrl}} HTTP/1.1
+
+###
+POST {{baseUrl}}/upload HTTP/1.1
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="images"
+
+--WebAppBoundary
+Content-Disposition: form-data; name="images"; filename="README.md"
+
+< ./README.md
+--WebAppBoundary
+Content-Disposition: form-data; name="images"; filename="DATABASE.md"
+
+< ./DATABASE.md
+--WebAppBoundary--
