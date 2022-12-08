@@ -1,9 +1,10 @@
-const createError = require('http-errors');
-const authenticationService = require('../services/authentication-service');
-const { loginValidate, refreshTokenValidate } = require('../validations/authentication-validate');
-const userService = require('../services/user-service');
-const messageCustom = require('../helpers/message-custom');
-const redisConnection = require('../helpers/redis-connection');
+const createError = require("http-errors");
+const authenticationService = require("../services/authentication-service");
+const { loginValidate, refreshTokenValidate } = require("../validations/authentication-validate");
+const userService = require("../services/user-service");
+const messageCustom = require("../helpers/message-custom");
+const redisConnection = require("../helpers/redis-connection");
+const mailHelper = require("../helpers/mail-helper");
 
 class AuthenticationsController {
     async register(req, res, next) {
@@ -43,8 +44,14 @@ class AuthenticationsController {
 
             let user = await authenticationService.refreshToken(refreshToken);
 
-            if(user.lastLoginIp != req.ip) {
+            if (user.lastLoginIp != req.ip) {
                 await redisConnection.removeValue(`RefreshToken-${userId}`);
+                await mailHelper.sendMail(
+                    user.email,
+                    "Your account has login in other IP",
+                    "We detected your account has login in other IP. Please check it."
+                );
+
                 throw createError.NotAcceptable("Your ip has change. Please login again.");
             }
 

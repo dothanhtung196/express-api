@@ -47,7 +47,7 @@ class AuthenticationService {
 
     async refreshToken(refreshToken) {
         let payload = await jwtHelper.verifyRefreshToken(refreshToken);
-        
+
         let tokenCache = await redisConnection.getValue(`RefreshToken-${payload.userId}`);
         if (tokenCache != refreshToken) {
             throw new Error("Refresh token does not exists in database.")
