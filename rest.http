@@ -101,14 +101,16 @@ POST {{baseUrl}}/upload HTTP/1.1
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary
-Content-Disposition: form-data; name="images"
+Content-Disposition: form-data; name="file"
 
+file
 --WebAppBoundary
-Content-Disposition: form-data; name="images"; filename="README.md"
+Content-Disposition: form-data; name="file"; filename="export.xlsx"
 
-< ./README.md
---WebAppBoundary
-Content-Disposition: form-data; name="images"; filename="DATABASE.md"
-
-< ./DATABASE.md
+< ./public/exports/export.xlsx
 --WebAppBoundary--
+
+###
+POST {{baseUrl}}/export HTTP/1.1
+
+content
