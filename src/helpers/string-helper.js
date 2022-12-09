@@ -1,7 +1,7 @@
 require("dotenv").config();
 const bcrypt = require("bcrypt");
 
-class StringCipher {
+class StringHelper {
     constructor() {
         this.round = process.env.ROUND;
     }
@@ -22,4 +22,4 @@ class StringCipher {
     }
 }
 
-module.exports = new StringCipher();
+module.exports = new StringHelper();

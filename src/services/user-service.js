@@ -1,28 +1,27 @@
-const stringCipher = require("../helpers/string-cipher");
+const stringHelper = require("../helpers/string-helper");
 const userRepository = require("../repositories/user-repository");
 
-class UserService
-{
+class UserService {
     async getAll() {
         return await userRepository.getAll();
     }
 
     async getByUsername(username) {
         let user = await userRepository.getByUsername(username);
-        if(user) delete user.password;
+        if (user) delete user.password;
         return user;
     }
 
     async getById(id) {
         let user = await userRepository.getById(id);
-        if(user) delete user.password;
+        if (user) delete user.password;
         return user;
     }
 
     async add(request) {
-        request.password = await stringCipher.hashPassword(request.password);
-        let result =  await userRepository.add(request);
-        if(result) delete result.password;
+        request.password = await stringHelper.hashPassword(request.password);
+        let result = await userRepository.add(request);
+        if (result) delete result.password;
         return result;
     }
 

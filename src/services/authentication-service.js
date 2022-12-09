@@ -1,13 +1,13 @@
 require('dotenv').config();
 const userRepository = require("../repositories/user-repository");
-const stringCipher = require("../helpers/string-cipher");
+const stringHelper = require("../helpers/string-helper");
 const jwtHelper = require("../helpers/jwt-helper");
 const redisConnection = require("../helpers/redis-connection");
 const claimService = require("./claim-service");
 
 class AuthenticationService {
     async register(request) {
-        request.password = await stringCipher.hashPassword(request.password);
+        request.password = await stringHelper.hashPassword(request.password);
         return await userRepository.add(request);
     }
 
@@ -17,7 +17,7 @@ class AuthenticationService {
 
         let user = await userRepository.getByUsername(username);
         if (user) {
-            let isPasswordCheck = await stringCipher.comparePassword(password, user.password);
+            let isPasswordCheck = await stringHelper.comparePassword(password, user.password);
 
             if (isPasswordCheck) {
                 delete user.password;
