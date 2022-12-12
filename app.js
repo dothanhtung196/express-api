@@ -3,11 +3,14 @@ var express = require("express");
 var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
+const cors = require("cors");
 const swaggerUi = require("swagger-ui-express");
 const openApiSpecification = require("./src/helpers/swagger-configuration");
 const { handleNotFound, handleError } = require("./src/middleware/error-handler-middleware");
 
 var app = express();
+
+app.use(cors);
 
 // view engine setup
 app.set("views", path.join(__dirname, "src/views"));
